@@ -1,8 +1,8 @@
-package com.debiotech.scheduler.service;
+package com.debiotech.scheduler.v1.service;
 
-import com.debiotech.scheduler.tasks.ScheduledTask;
-import com.debiotech.scheduler.tasks.ScheduledTaskFactory;
-import com.debiotech.scheduler.tasks.TaskA;
+import com.debiotech.scheduler.v1.tasks.ScheduledTask;
+import com.debiotech.scheduler.v1.tasks.ScheduledTaskFactory;
+import com.debiotech.scheduler.v1.tasks.TaskA;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

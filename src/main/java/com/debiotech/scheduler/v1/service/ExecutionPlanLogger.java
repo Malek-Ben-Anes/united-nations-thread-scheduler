@@ -1,6 +1,6 @@
-package com.debiotech.scheduler.service;
+package com.debiotech.scheduler.v1.service;
 
-import com.debiotech.scheduler.tasks.ScheduledTask;
+import com.debiotech.scheduler.v1.tasks.ScheduledTask;
 
 import java.util.ArrayList;
 import java.util.List;

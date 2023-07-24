@@ -1,4 +1,4 @@
-package com.debiotech.scheduler.tasks;
+package com.debiotech.scheduler.v1.tasks;
 
 import java.util.List;
 
