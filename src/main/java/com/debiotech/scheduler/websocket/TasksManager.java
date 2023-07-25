@@ -1,4 +1,6 @@
-package com.debiotech.scheduler.v2;
+package com.debiotech.scheduler.websocket;
+
+import com.debiotech.scheduler.v2.PrioritizedTask;
 
 import java.util.Comparator;
 import java.util.concurrent.*;

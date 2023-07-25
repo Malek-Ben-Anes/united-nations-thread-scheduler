@@ -8,58 +8,61 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-// flexible group of plan...
-//
+/**
+ * A Task Manager that uses a priority queue to schedule and execute tasks.
+ */
 public class PriorityQueueTaskManager {
 
-    private static final int EXECUTION_INTERVAL_IN_MS = 1000;
+    private static final int EXECUTION_INTERVAL_IN_MS = 1000; // Execution interval in milliseconds.
     private static TaskFactory taskFactory = new TaskFactory();
 
-    private int timeElapsedInSeconds = 1;
+    private long currentExecutionTimeInSeconds = 1; // Current execution time in seconds.
 
+    /**
+     * Executes the tasks using a priority queue and a scheduled executor service.
+     * The tasks are executed at the specified interval.
+     */
     public void execute() {
         PriorityQueue<Task> taskQueue = createTasksPriorityQueue();
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
         System.out.println("Time (sec) -> Tasks");
 
-        // how to do when task more than more 1 second execution.
         scheduler.scheduleAtFixedRate(() -> {
-            System.out.print("\n" + timeElapsedInSeconds + " -> ");
+            System.out.print("\n" + currentExecutionTimeInSeconds + " -> ");
 
+            // Execute the first two tasks with the highest priority from the priority queue.
             Task task1 = taskQueue.poll();
             Task task2 = taskQueue.poll();
 
             if (task1 != null) {
-                if (task1.getPriority() <= timeElapsedInSeconds) {
+                if (task1.isReadyToExecute(currentExecutionTimeInSeconds)) {
                     task1.execute();
                     task1.reSchedule();
                 }
-                taskQueue.offer(task1); // Reinsert the task to maintain its priority
+                taskQueue.offer(task1); // Reinsert the task into the queue.
             }
 
             if (task2 != null) {
-                if (task2.getPriority() <= timeElapsedInSeconds) {
+                if (task2.isReadyToExecute(currentExecutionTimeInSeconds)) {
                     task2.execute();
                     task2.reSchedule();
                 }
-                taskQueue.offer(task2); // Reinsert the task to maintain its priority
+                taskQueue.offer(task2); // Reinsert the task into the queue.
             }
 
-            timeElapsedInSeconds++;
+            currentExecutionTimeInSeconds++;
         }, 0, EXECUTION_INTERVAL_IN_MS, TimeUnit.MILLISECONDS);
     }
 
     /**
-     * Implements first-in-first-out logic.
+     * Creates a priority queue of tasks based on their next execution times.
+     * The tasks are obtained from the TaskFactory and ordered in the priority queue.
+     *
+     * @return A priority queue of tasks ordered by their next execution times.
      */
-//    @Override
-//    public int compareTo(ScheduledTask other) {
-//        return this.priority.compareTo(other.priority);
-//    }
-
     private static PriorityQueue<Task> createTasksPriorityQueue() {
-        PriorityQueue<Task> taskQueue = new PriorityQueue<>((t1, t2) -> Integer.compare(t1.getPriority(), t2.getPriority()));
+        PriorityQueue<Task> taskQueue = new PriorityQueue<>();
         taskFactory.createAllTasks().forEach(task -> taskQueue.offer(task));
         return taskQueue;
     }
