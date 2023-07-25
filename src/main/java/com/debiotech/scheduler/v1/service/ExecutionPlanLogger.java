@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ExecutionPlanLogger {
 
-    private static  final Map<Integer, List<String>> executedTasksPerSecond = new ConcurrentHashMap<>();
+    private static final Map<Integer, List<String>> executedTasksPerSecond = new ConcurrentHashMap<>();
 
     public void addTask(int timeElapsed, ScheduledTask task) {
         List<String> tasks = executedTasksPerSecond.getOrDefault(timeElapsed, new ArrayList<>());
@@ -21,6 +21,11 @@ public class ExecutionPlanLogger {
         }
     }
 
+    // unit test
+    // clean code
+    // print to file
+    // websocket
+    // document
     public void printPlan() {
         for (Map.Entry<Integer, List<String>> e : executedTasksPerSecond.entrySet()) {
             System.out.println(e.getKey() + " -> " + e.getValue());

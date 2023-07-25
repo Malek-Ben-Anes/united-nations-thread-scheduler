@@ -2,7 +2,7 @@ package com.debiotech.scheduler.v1.service;
 
 import com.debiotech.scheduler.v1.tasks.ScheduledTask;
 import com.debiotech.scheduler.v1.tasks.ScheduledTaskFactory;
-import com.debiotech.scheduler.v1.tasks.TaskA;
+import com.debiotech.scheduler.v1.tasks.ScheduledTaskA;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,7 +16,6 @@ public class ScheduledTaskManager {
     private final ScheduledTaskFactory scheduledTaskFactory;
     private final ExecutionPlanLogger executionPlanLogger;
     // private final int MAX_CONCURRENT_TASKS;
-
 
     private static AtomicInteger timeElapsedInSeconds = new AtomicInteger(0);
 
@@ -42,7 +41,9 @@ public class ScheduledTaskManager {
 
             executionPlanLogger.addTask(timeElapsedInSeconds.get(), scheduledTask);
 
-            if (scheduledTask instanceof TaskA) {
+            // executionPlanLogger.logCurrentTask(timeElapsedInSeconds.get(), scheduledTask);
+
+            if (scheduledTask instanceof ScheduledTaskA) {
                 timeElapsedInSeconds.incrementAndGet();
             }
 
