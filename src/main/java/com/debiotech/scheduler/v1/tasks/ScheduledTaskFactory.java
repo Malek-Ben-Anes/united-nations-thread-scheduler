@@ -1,12 +1,16 @@
 package com.debiotech.scheduler.v1.tasks;
 
+import com.debiotech.scheduler.v1.manager.ScheduledTaskManager;
+
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 /**
  * A factory class to create different ScheduledTask instances.
  */
 public class ScheduledTaskFactory {
 
+    public static final Semaphore semaphore = new Semaphore(ScheduledTaskManager.MAX_CONCURRENT_TASKS);
     private static final int TASK_INTERVAL_1S = 1;
     private static final int TASK_INTERVAL_5S = 5;
     private static final int TASK_INTERVAL_10S = 10;
@@ -32,7 +36,7 @@ public class ScheduledTaskFactory {
      * @return A ScheduledTask instance for Task A.
      */
     public ScheduledTask createTaskA() {
-        return new ScheduledTaskA(0, TASK_INTERVAL_1S);
+        return new ScheduledTaskA(semaphore,0, TASK_INTERVAL_1S);
     }
 
     /**
@@ -41,7 +45,7 @@ public class ScheduledTaskFactory {
      * @return A ScheduledTask instance for Task B.
      */
     public ScheduledTask createTaskB() {
-        return new ScheduledTaskB(1, TASK_INTERVAL_5S);
+        return new ScheduledTaskB(semaphore,1, TASK_INTERVAL_5S);
     }
 
     /**
@@ -50,7 +54,7 @@ public class ScheduledTaskFactory {
      * @return A ScheduledTask instance for Task C.
      */
     public ScheduledTask createTaskC() {
-        return new ScheduledTaskC(2, TASK_INTERVAL_5S);
+        return new ScheduledTaskC(semaphore,2, TASK_INTERVAL_5S);
     }
 
     /**
@@ -59,7 +63,7 @@ public class ScheduledTaskFactory {
      * @return A ScheduledTask instance for Task D.
      */
     public ScheduledTask createTaskD() {
-        return new ScheduledTaskD(3, TASK_INTERVAL_10S);
+        return new ScheduledTaskD(semaphore,3, TASK_INTERVAL_10S);
     }
 
     /**
@@ -68,6 +72,6 @@ public class ScheduledTaskFactory {
      * @return A ScheduledTask instance for Task E.
      */
     public ScheduledTask createTaskE() {
-        return new ScheduledTaskE(4, TASK_INTERVAL_10S);
+        return new ScheduledTaskE(semaphore,4, TASK_INTERVAL_10S);
     }
 }

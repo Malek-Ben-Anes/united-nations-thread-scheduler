@@ -1,7 +1,5 @@
 package com.debiotech.scheduler.service;
 
-import com.debiotech.scheduler.v1.tasks.ScheduledTask;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ExecutionPlanLogger {
 
-    private static final Map<Long, List<String>> executedTasksPerSecond = new ConcurrentHashMap<>();
+    private final Map<Long, List<String>> executedTasksPerSecond = new ConcurrentHashMap<>();
 
     /**
      * Adds a task to the execution plan log for a given time elapsed (in seconds).

@@ -1,5 +1,7 @@
 package com.debiotech.scheduler.v1.tasks;
 
+import java.util.concurrent.Semaphore;
+
 /**
  * A specific implementation of ScheduledTask representing Task C.
  */
@@ -11,8 +13,8 @@ public class ScheduledTaskC extends ScheduledTask {
      * @param initialDelayInSeconds The delay in seconds before the first execution of Task C.
      * @param intervalInSeconds     The interval in seconds between subsequent executions of Task C.
      */
-    public ScheduledTaskC(int initialDelayInSeconds, int intervalInSeconds) {
-        super("C", () -> System.out.print("C"), initialDelayInSeconds, intervalInSeconds);
+    public ScheduledTaskC(Semaphore semaphore, int initialDelayInSeconds, int intervalInSeconds) {
+        super("C", () -> System.out.print("C"), semaphore, initialDelayInSeconds, intervalInSeconds);
     }
 
 }
