@@ -1,9 +1,18 @@
 package com.debiotech.scheduler.v1.tasks;
 
+/**
+ * A specific implementation of ScheduledTask representing Task A.
+ */
 public class ScheduledTaskA extends ScheduledTask {
 
-    public ScheduledTaskA(int initialDelay, int interval) {
-        super("A", () -> System.out.print("A"), initialDelay, interval);
+    /**
+     * Constructs a ScheduledTaskA with the given initial delay and interval.
+     *
+     * @param initialDelayInSeconds The delay in seconds before the first execution of Task A.
+     * @param intervalInSeconds     The interval in seconds between subsequent executions of Task A.
+     */
+    public ScheduledTaskA(int initialDelayInSeconds, int intervalInSeconds) {
+        super("A", () -> System.out.print("A"), initialDelayInSeconds, intervalInSeconds);
     }
 
 }

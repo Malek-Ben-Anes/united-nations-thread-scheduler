@@ -3,33 +3,45 @@ package com.debiotech.scheduler.v1.tasks;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+/**
+ * An abstract class representing a scheduled task that can be executed periodically by a timer.
+ */
 public abstract class ScheduledTask extends TimerTask {
 
+    // Only allow two tasks at most to run at a time.
     private static final int MAX_CONCURRENT_TASKS = 2;
 
-    // Only allow two tasks at most to run at a time.
     private static final Semaphore semaphore = new Semaphore(MAX_CONCURRENT_TASKS);
 
     protected final String name;
     protected final Runnable command;
-    protected final int initialDelay;
-    protected final int interval;
+    protected final int initialDelayInSeconds; // Initial delay before the first execution of the task (in seconds).
+    protected final int intervalInSeconds; // Interval between subsequent executions of the task (in seconds).
 
-    protected ScheduledTask(String name, Runnable command, int initialDelay, int interval) {
+    /**
+     * Constructs a scheduled task with the given name, command, initial delay, and interval.
+     *
+     * @param name                 The name of the task.
+     * @param command              The command to be executed.
+     * @param initialDelayInSeconds The delay in seconds before the first execution of the task.
+     * @param intervalInSeconds     The interval in seconds between subsequent executions of the task.
+     */
+    protected ScheduledTask(String name, Runnable command, int initialDelayInSeconds, int intervalInSeconds) {
         this.name = name;
         this.command = command;
-        this.initialDelay = initialDelay;
-        this.interval = interval;
+        this.initialDelayInSeconds = initialDelayInSeconds;
+        this.intervalInSeconds = intervalInSeconds;
     }
 
     @Override
     public void run() {
         try {
-            // Aquire a permit to proceed
+            // Acquire a permit to proceed
             semaphore.acquire();
             command.run();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            // Handle the interrupted exception if needed.
         } finally {
             // Always release our permit
             semaphore.release();
@@ -41,15 +53,30 @@ public abstract class ScheduledTask extends TimerTask {
         return this.name;
     }
 
+    /**
+     * Gets the name of the task.
+     *
+     * @return The name of the task.
+     */
     public String getName() {
         return name;
     }
 
-    public int getInitialDelay() {
-        return initialDelay;
+    /**
+     * Gets the initial delay before the first execution of the task (in seconds).
+     *
+     * @return The initial delay in seconds.
+     */
+    public int getInitialDelayInSeconds() {
+        return initialDelayInSeconds;
     }
 
-    public int getInterval() {
-        return interval;
+    /**
+     * Gets the interval between subsequent executions of the task (in seconds).
+     *
+     * @return The interval in seconds.
+     */
+    public int getIntervalInSeconds() {
+        return intervalInSeconds;
     }
 }
