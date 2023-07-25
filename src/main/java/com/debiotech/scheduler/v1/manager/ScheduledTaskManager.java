@@ -14,23 +14,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A manager that schedules and executes the registered tasks using a ScheduledExecutorService.
  */
 public class ScheduledTaskManager {
-    private static final int DEFAULT_MAX_CONCURRENT_TASKS = 2;
+
+    // Only allow two tasks at most to run at a time.
+    public static final int MAX_CONCURRENT_TASKS = 2;
     private static final int CORE_THREAD_POOL_SIZE = 5;
 
     private final ScheduledTaskFactory scheduledTaskFactory;
     private final ExecutionPlanLogger executionPlanLogger;
     private final ScheduledExecutorService scheduler;
-    private final int maxConcurrentTasks;
 
     private static final AtomicInteger timeElapsedInSeconds = new AtomicInteger(0);
 
     public ScheduledTaskManager(ScheduledTaskFactory scheduledTaskFactory,
-                                ExecutionPlanLogger executionPlanLogger,
-                                int maxConcurrentTasks) {
+                                ExecutionPlanLogger executionPlanLogger) {
         this.scheduledTaskFactory = scheduledTaskFactory;
         this.executionPlanLogger = executionPlanLogger;
         this.scheduler = Executors.newScheduledThreadPool(CORE_THREAD_POOL_SIZE);
-        this.maxConcurrentTasks = maxConcurrentTasks <= 0 ? DEFAULT_MAX_CONCURRENT_TASKS : maxConcurrentTasks;
     }
 
     /**
@@ -47,7 +46,7 @@ public class ScheduledTaskManager {
         scheduler.scheduleAtFixedRate(() -> {
             scheduledTask.run();
 
-            executionPlanLogger.addTask(timeElapsedInSeconds.get(), scheduledTask);
+            executionPlanLogger.addTask(timeElapsedInSeconds.get(), scheduledTask.getName());
 
             if (scheduledTask instanceof ScheduledTaskA) {
                 timeElapsedInSeconds.incrementAndGet();

@@ -59,6 +59,20 @@ public abstract class Task implements Comparable<Task> {
     }
 
     @Override
+    public String toString() {
+        return this.name;
+    }
+
+    /**
+     * Gets the name of the task.
+     *
+     * @return The name of the task.
+     */
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public int compareTo(Task other) {
         // First, compare based on nextExecutionTime
         int result = Long.compare(this.nextExecutionTime, other.nextExecutionTime);

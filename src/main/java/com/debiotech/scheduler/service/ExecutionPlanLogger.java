@@ -16,17 +16,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ExecutionPlanLogger {
 
-    private static final Map<Integer, List<String>> executedTasksPerSecond = new ConcurrentHashMap<>();
+    private static final Map<Long, List<String>> executedTasksPerSecond = new ConcurrentHashMap<>();
 
     /**
      * Adds a task to the execution plan log for a given time elapsed (in seconds).
      *
      * @param timeElapsed The time elapsed in seconds.
-     * @param task        The ScheduledTask to be added to the log.
+     * @param taskName    The taskName to be added to the log.
      */
-    public synchronized void addTask(int timeElapsed, ScheduledTask task) {
+    public synchronized void addTask(long timeElapsed, String taskName) {
         List<String> tasks = executedTasksPerSecond.getOrDefault(timeElapsed, new ArrayList<>());
-        tasks.add(task.getName());
+        tasks.add(taskName);
         executedTasksPerSecond.put(timeElapsed, tasks);
 
         if (timeElapsed % 20 == 0) {
@@ -38,7 +38,7 @@ public class ExecutionPlanLogger {
      * Prints the execution plan log to the console.
      */
     public synchronized void outputToConsole() {
-        for (Map.Entry<Integer, List<String>> entry : executedTasksPerSecond.entrySet()) {
+        for (Map.Entry<Long, List<String>> entry : executedTasksPerSecond.entrySet()) {
             String formattedOutput = String.format("%d -> %s", entry.getKey(), entry.getValue());
             System.out.println(formattedOutput);
         }
@@ -51,7 +51,7 @@ public class ExecutionPlanLogger {
      */
     public synchronized void outputToFile(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            for (Map.Entry<Integer, List<String>> entry : executedTasksPerSecond.entrySet()) {
+            for (Map.Entry<Long, List<String>> entry : executedTasksPerSecond.entrySet()) {
                 String formattedOutput = String.format("%d -> %s", entry.getKey(), entry.getValue());
                 writer.write(formattedOutput);
                 writer.newLine();
@@ -68,7 +68,7 @@ public class ExecutionPlanLogger {
      *
      * @return The execution plan log as an unmodifiable map.
      */
-    public synchronized Map<Integer, List<String>> getExecutionPlanLog() {
+    public synchronized Map<Long, List<String>> getExecutionPlanLog() {
         return Collections.unmodifiableMap(executedTasksPerSecond);
     }
 }

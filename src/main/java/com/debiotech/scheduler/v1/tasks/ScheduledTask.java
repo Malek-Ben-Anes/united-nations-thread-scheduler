@@ -1,5 +1,7 @@
 package com.debiotech.scheduler.v1.tasks;
 
+import com.debiotech.scheduler.v1.manager.ScheduledTaskManager;
+
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
@@ -8,10 +10,7 @@ import java.util.concurrent.Semaphore;
  */
 public abstract class ScheduledTask extends TimerTask {
 
-    // Only allow two tasks at most to run at a time.
-    private static final int MAX_CONCURRENT_TASKS = 2;
-
-    private static final Semaphore semaphore = new Semaphore(MAX_CONCURRENT_TASKS);
+    private static final Semaphore semaphore = new Semaphore(ScheduledTaskManager.MAX_CONCURRENT_TASKS);
 
     protected final String name;
     protected final Runnable command;

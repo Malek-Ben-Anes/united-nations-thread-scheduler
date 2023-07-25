@@ -1,5 +1,7 @@
 package com.debiotech.scheduler.v2;
 
+import com.debiotech.scheduler.service.ExecutionPlanLogger;
+import com.debiotech.scheduler.v1.tasks.ScheduledTaskFactory;
 import com.debiotech.scheduler.v2.tasks.Task;
 import com.debiotech.scheduler.v2.tasks.TaskFactory;
 
@@ -14,9 +16,20 @@ import java.util.concurrent.TimeUnit;
 public class PriorityQueueTaskManager {
 
     private static final int EXECUTION_INTERVAL_IN_MS = 1000; // Execution interval in milliseconds.
-    private static TaskFactory taskFactory = new TaskFactory();
+    private static final int CORE_THREAD_POOL_SIZE = 5;
+
+    private final TaskFactory taskFactory;
+    private final ExecutionPlanLogger executionPlanLogger;
+    private final ScheduledExecutorService scheduler;
 
     private long currentExecutionTimeInSeconds = 1; // Current execution time in seconds.
+
+    public PriorityQueueTaskManager(TaskFactory taskFactory,
+                                    ExecutionPlanLogger executionPlanLogger) {
+        this.taskFactory = taskFactory;
+        this.executionPlanLogger = executionPlanLogger;
+        this.scheduler = Executors.newScheduledThreadPool(CORE_THREAD_POOL_SIZE);
+    }
 
     /**
      * Executes the tasks using a priority queue and a scheduled executor service.
@@ -39,6 +52,7 @@ public class PriorityQueueTaskManager {
                 if (task1.isReadyToExecute(currentExecutionTimeInSeconds)) {
                     task1.execute();
                     task1.reSchedule();
+                    executionPlanLogger.addTask(currentExecutionTimeInSeconds, task1.getName());
                 }
                 taskQueue.offer(task1); // Reinsert the task into the queue.
             }
@@ -61,7 +75,7 @@ public class PriorityQueueTaskManager {
      *
      * @return A priority queue of tasks ordered by their next execution times.
      */
-    private static PriorityQueue<Task> createTasksPriorityQueue() {
+    private PriorityQueue<Task> createTasksPriorityQueue() {
         PriorityQueue<Task> taskQueue = new PriorityQueue<>();
         taskFactory.createAllTasks().forEach(task -> taskQueue.offer(task));
         return taskQueue;
