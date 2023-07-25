@@ -1,5 +1,7 @@
 package com.debiotech.scheduler.v1.tasks;
 
+import com.debiotech.scheduler.v1.manager.ScheduledTaskManager;
+
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
@@ -8,9 +10,11 @@ import java.util.concurrent.Semaphore;
  */
 public abstract class ScheduledTask extends TimerTask {
 
+    // The semaphore to be shared and considered by different tasks.
+    public static Semaphore semaphore = new Semaphore(ScheduledTaskManager.MAX_CONCURRENT_TASKS);
+
     protected final String name;
     protected final Runnable command;
-    protected final Semaphore semaphore;
     protected final int initialDelayInSeconds; // Initial delay before the first execution of the task (in seconds).
     protected final int intervalInSeconds; // Interval between subsequent executions of the task (in seconds).
 
@@ -19,14 +23,12 @@ public abstract class ScheduledTask extends TimerTask {
      *
      * @param name                 The name of the task.
      * @param command              The command to be executed.
-     * @param semaphore            The semaphore to be shared and considered by different tasks.
      * @param initialDelayInSeconds The delay in seconds before the first execution of the task.
      * @param intervalInSeconds     The interval in seconds between subsequent executions of the task.
      */
-    protected ScheduledTask(String name, Runnable command, Semaphore semaphore, int initialDelayInSeconds, int intervalInSeconds) {
+    protected ScheduledTask(String name, Runnable command, int initialDelayInSeconds, int intervalInSeconds) {
         this.name = name;
         this.command = command;
-        this.semaphore = semaphore;
         this.initialDelayInSeconds = initialDelayInSeconds;
         this.intervalInSeconds = intervalInSeconds;
     }
@@ -35,14 +37,14 @@ public abstract class ScheduledTask extends TimerTask {
     public void run() {
         try {
             // Acquire a permit to proceed
-            semaphore.acquire();
+            getSemaphore().acquire();
             command.run();
         } catch (InterruptedException e) {
             e.printStackTrace();
             throw new RuntimeException("Scheduled task conflict occured!");
         } finally {
             // Always release our permit
-            semaphore.release();
+            getSemaphore().release();
         }
     }
 

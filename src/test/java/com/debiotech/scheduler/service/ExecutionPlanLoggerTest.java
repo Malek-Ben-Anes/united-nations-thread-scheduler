@@ -87,7 +87,7 @@ public class ExecutionPlanLoggerTest {
 
     // Helper method to create a mock ScheduledTask
     private ScheduledTask createMockTask(String name) {
-        return new ScheduledTask(name, () -> {}, new Semaphore(10), 0, 1) {
+        return new ScheduledTask(name, () -> {}, 0, 1) {
             @Override
             public String getName() {
                 return name;

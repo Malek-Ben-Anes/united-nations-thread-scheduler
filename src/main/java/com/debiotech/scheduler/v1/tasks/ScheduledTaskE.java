@@ -13,8 +13,8 @@ public class ScheduledTaskE extends ScheduledTask {
      * @param initialDelayInSeconds The delay in seconds before the first execution of Task E.
      * @param intervalInSeconds     The interval in seconds between subsequent executions of Task E.
      */
-    public ScheduledTaskE(Semaphore semaphore, int initialDelayInSeconds, int intervalInSeconds) {
-        super("E", () -> System.out.print("E"), semaphore, initialDelayInSeconds, intervalInSeconds);
+    public ScheduledTaskE(int initialDelayInSeconds, int intervalInSeconds) {
+        super("E", () -> System.out.print("E "), initialDelayInSeconds, intervalInSeconds);
     }
 
 }

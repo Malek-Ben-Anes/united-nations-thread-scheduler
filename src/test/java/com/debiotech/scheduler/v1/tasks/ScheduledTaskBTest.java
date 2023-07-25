@@ -5,6 +5,8 @@ import org.mockito.Mockito;
 
 import java.util.concurrent.Semaphore;
 
+import static org.mockito.Mockito.when;
+
 class ScheduledTaskBTest {
 
     @Test
@@ -13,7 +15,8 @@ class ScheduledTaskBTest {
         Semaphore semaphoreMock = Mockito.mock(Semaphore.class);
 
         // Create a new ScheduledTaskB instance
-        ScheduledTaskB taskB = new ScheduledTaskB(semaphoreMock, 0, 1);
+        ScheduledTaskB taskB = new ScheduledTaskB(0, 1);
+        ScheduledTask.semaphore = semaphoreMock;
 
         // Call the run method on the task
         taskB.run();

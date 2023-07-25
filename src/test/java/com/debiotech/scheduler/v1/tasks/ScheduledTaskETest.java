@@ -13,7 +13,8 @@ class ScheduledTaskETest {
         Semaphore semaphoreMock = Mockito.mock(Semaphore.class);
 
         // Create a new ScheduledTaskA instance
-        ScheduledTaskE taskE = new ScheduledTaskE(semaphoreMock, 0, 1);
+        ScheduledTaskE taskE = new ScheduledTaskE(0, 1);
+        ScheduledTask.semaphore = semaphoreMock;
 
         // Call the run method on the task
         taskE.run();

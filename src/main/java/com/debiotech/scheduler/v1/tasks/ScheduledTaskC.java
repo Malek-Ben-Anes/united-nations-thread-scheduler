@@ -13,8 +13,8 @@ public class ScheduledTaskC extends ScheduledTask {
      * @param initialDelayInSeconds The delay in seconds before the first execution of Task C.
      * @param intervalInSeconds     The interval in seconds between subsequent executions of Task C.
      */
-    public ScheduledTaskC(Semaphore semaphore, int initialDelayInSeconds, int intervalInSeconds) {
-        super("C", () -> System.out.print("C"), semaphore, initialDelayInSeconds, intervalInSeconds);
+    public ScheduledTaskC(int initialDelayInSeconds, int intervalInSeconds) {
+        super("C", () -> System.out.print("C "), initialDelayInSeconds, intervalInSeconds);
     }
 
 }

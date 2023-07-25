@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.debiotech.scheduler.v1.tasks.ScheduledTaskFactory.semaphore;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ScheduledTaskFactoryTest {
@@ -24,23 +23,23 @@ class ScheduledTaskFactoryTest {
         // Verify that the tasks are created with the correct initial delays and intervals
         assertEquals(0, taskA.getInitialDelayInSeconds());
         assertEquals(1, taskA.getIntervalInSeconds());
-        assertEquals(semaphore, ((ScheduledTask) taskA).getSemaphore());
+        assertEquals(taskB.getSemaphore(), ((ScheduledTask) taskA).getSemaphore());
 
         assertEquals(1, taskB.getInitialDelayInSeconds());
         assertEquals(5, taskB.getIntervalInSeconds());
-        assertEquals(semaphore, ((ScheduledTask) taskB).getSemaphore());
+        assertEquals(taskA.getSemaphore(), ((ScheduledTask) taskB).getSemaphore());
 
         assertEquals(2, taskC.getInitialDelayInSeconds());
         assertEquals(5, taskC.getIntervalInSeconds());
-        assertEquals(semaphore, ((ScheduledTask) taskC).getSemaphore());
+        assertEquals(taskA.getSemaphore(), ((ScheduledTask) taskC).getSemaphore());
 
         assertEquals(3, taskD.getInitialDelayInSeconds());
         assertEquals(10, taskD.getIntervalInSeconds());
-        assertEquals(semaphore, ((ScheduledTask) taskD).getSemaphore());
+        assertEquals(taskA.getSemaphore(), ((ScheduledTask) taskD).getSemaphore());
 
         assertEquals(4, taskE.getInitialDelayInSeconds());
         assertEquals(10, taskE.getIntervalInSeconds());
-        assertEquals(semaphore, ((ScheduledTask) taskE).getSemaphore());
+        assertEquals(taskA.getSemaphore(), ((ScheduledTask) taskE).getSemaphore());
 
         // Verify that the createAllTasks() method returns the correct list of tasks
         List<ScheduledTask> allTasks = taskFactory.createAllTasks();

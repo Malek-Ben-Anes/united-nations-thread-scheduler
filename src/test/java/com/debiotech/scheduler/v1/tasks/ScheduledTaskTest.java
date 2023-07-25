@@ -23,8 +23,9 @@ public class ScheduledTaskTest {
         semaphoreMock = mock(Semaphore.class);
 
         // Create a new instance of ScheduledTask with a simple Runnable logic
-        scheduledTask = new ScheduledTask("TestTask", () -> executionCount.incrementAndGet(), semaphoreMock, 0, 1) {
+        scheduledTask = new ScheduledTask("TestTask", () -> executionCount.incrementAndGet(), 0, 1) {
         };
+        ScheduledTask.semaphore = semaphoreMock;
     }
 
     @Test

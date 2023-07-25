@@ -1,4 +1,4 @@
-package com.debiotech.scheduler.v2;
+package com.debiotech.scheduler.v2.manager;
 
 import com.debiotech.scheduler.service.ExecutionPlanLogger;
 import com.debiotech.scheduler.v1.tasks.ScheduledTaskFactory;

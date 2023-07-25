@@ -3,10 +3,12 @@ package com.debiotech.scheduler;
 import com.debiotech.scheduler.service.ExecutionPlanLogger;
 import com.debiotech.scheduler.v1.manager.ScheduledTaskManager;
 import com.debiotech.scheduler.v1.tasks.ScheduledTaskFactory;
-import com.debiotech.scheduler.v2.PriorityQueueTaskManager;
+import com.debiotech.scheduler.v2.manager.PriorityQueueTaskManager;
 import com.debiotech.scheduler.v2.tasks.TaskFactory;
 
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * The main class for the Debiotech Scheduler application.
@@ -16,6 +18,8 @@ import java.util.Scanner;
  * The user can choose to execute either of the algorithms or exit the program.
  */
 public class DebiotechSchedulerApplication {
+
+    private static final int CORE_THREAD_POOL_SIZE = 5;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -28,10 +32,10 @@ public class DebiotechSchedulerApplication {
 
             switch (choice) {
                 case 1:
-                    executeScheduledTaskAlgorithm();
+                    new DebiotechSchedulerApplication().executeScheduledTaskAlgorithm();
                     break;
                 case 2:
-                    launchPriorityQueueAlgorithm();
+                    new DebiotechSchedulerApplication().launchPriorityQueueAlgorithm();
                     break;
                 case 0:
                     System.out.println("Exiting the program.");
@@ -56,21 +60,22 @@ public class DebiotechSchedulerApplication {
     /**
      * Executes the scheduled task algorithm.
      */
-    private static void executeScheduledTaskAlgorithm() {
+    protected void executeScheduledTaskAlgorithm() {
         System.out.println("\nScheduled task algorithm executed... \n");
 
         // Self-scheduled task algorithm
         ScheduledTaskFactory taskFactory = new ScheduledTaskFactory();
         ExecutionPlanLogger executionPlanLogger = new ExecutionPlanLogger();
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(CORE_THREAD_POOL_SIZE);
 
-        ScheduledTaskManager taskScheduler = new ScheduledTaskManager(taskFactory, executionPlanLogger);
+        ScheduledTaskManager taskScheduler = new ScheduledTaskManager(taskFactory, executionPlanLogger, scheduler);
         taskScheduler.execute();
     }
 
     /**
      * Launches the priority queue based algorithm.
      */
-    private static void launchPriorityQueueAlgorithm() {
+    protected void launchPriorityQueueAlgorithm() {
         System.out.println("\nPriority queue based algorithm launched... \n");
 
         // The priority queue based algorithm implementation

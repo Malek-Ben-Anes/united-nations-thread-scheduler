@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * A class to log and output the execution plan of tasks per second.
@@ -19,16 +20,21 @@ public class ExecutionPlanLogger {
     /**
      * Adds a task to the execution plan log for a given time elapsed (in seconds).
      *
-     * @param timeElapsed The time elapsed in seconds.
-     * @param taskName    The taskName to be added to the log.
+     * @param startRunningTimeInSeconds The time elapsed in seconds.
+     * @param taskName                  The taskName to be added to the log.
      */
-    public synchronized void addTask(long timeElapsed, String taskName) {
-        List<String> tasks = executedTasksPerSecond.getOrDefault(timeElapsed, new ArrayList<>());
+    public synchronized void addTask(long startRunningTimeInSeconds, String taskName) {
+        List<String> tasks = executedTasksPerSecond.getOrDefault(startRunningTimeInSeconds, new ArrayList<>());
         tasks.add(taskName);
-        executedTasksPerSecond.put(timeElapsed, tasks);
+        tasks = tasks.stream().sorted().collect(Collectors.toList());
+        executedTasksPerSecond.put(startRunningTimeInSeconds, tasks);
 
-        if (timeElapsed % 20 == 0) {
+        // We choose to print the execution log every 5 seconds.
+        // This statement should be removed.
+        if (startRunningTimeInSeconds > 0 && startRunningTimeInSeconds % 5 == 0) {
+            System.out.println("\n====        LOGGING FROM EXECUTION PLANNER       ===");
             outputToConsole();
+            System.out.println("Total running seconds: " + executedTasksPerSecond.size() + "s\n");
         }
     }
 

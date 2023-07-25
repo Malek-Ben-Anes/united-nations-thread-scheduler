@@ -1,5 +1,7 @@
 package com.debiotech.scheduler.v2.tasks;
 
+import java.util.Objects;
+
 /**
  * An abstract class representing a task to be executed by the ScheduledTaskManager.
  * This class provides a base implementation for tasks with a name, next execution time, and interval.
@@ -50,6 +52,15 @@ public abstract class Task implements Comparable<Task> {
     }
 
     /**
+     * Gets the name of the task.
+     *
+     * @return The name of the task.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Gets the next execution time of the task.
      *
      * @return The next execution time of the task (in seconds).
@@ -58,18 +69,18 @@ public abstract class Task implements Comparable<Task> {
         return nextExecutionTime;
     }
 
+    /**
+     * Gets the interval time in second of the task.
+     *
+     * @return The interval time of the task (in seconds).
+     */
+    public int getInterval() {
+        return interval;
+    }
+
     @Override
     public String toString() {
         return this.name;
-    }
-
-    /**
-     * Gets the name of the task.
-     *
-     * @return The name of the task.
-     */
-    public String getName() {
-        return name;
     }
 
     @Override
@@ -83,5 +94,18 @@ public abstract class Task implements Comparable<Task> {
         }
 
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return nextExecutionTime == task.nextExecutionTime && interval == task.interval && Objects.equals(name, task.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, nextExecutionTime, interval);
     }
 }
