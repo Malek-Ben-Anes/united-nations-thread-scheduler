@@ -1,4 +1,4 @@
-package com.debiotech.scheduler.v1.service;
+package com.debiotech.scheduler.service;
 
 import com.debiotech.scheduler.v1.tasks.ScheduledTask;
 

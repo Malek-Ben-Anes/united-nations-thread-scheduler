@@ -1,5 +1,6 @@
-package com.debiotech.scheduler.v1.service;
+package com.debiotech.scheduler.v1.manager;
 
+import com.debiotech.scheduler.service.ExecutionPlanLogger;
 import com.debiotech.scheduler.v1.tasks.ScheduledTask;
 import com.debiotech.scheduler.v1.tasks.ScheduledTaskFactory;
 import com.debiotech.scheduler.v1.tasks.ScheduledTaskA;
@@ -27,7 +28,7 @@ public class ScheduledTaskManager {
         MAX_CONCURRENT_TASKS =  MAX_CONCURRENT_TASKS <= 0 ? MAX_CONCURRENT_TASKS : DEFAULT_MAX_CONCURRENT_TASKS;
     }
 
-    public void invokeAllTasks() {
+    public void execute() {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(CORE_THREAD_POOL_SIZE);
         this.scheduledTaskFactory.createAllTasks().forEach(scheduledTask  -> {
             scheduleTask(scheduler, scheduledTask);
