@@ -44,7 +44,7 @@ public class ScheduledTaskManager {
 
             scheduledTask.run();
 
-            executionPlanLogger.addTask(timeElapsedInSeconds.get(), scheduledTask.getName());
+            executionPlanLogger.addTaskAndLog(timeElapsedInSeconds.get(), scheduledTask.getName());
 
             if (scheduledTask instanceof ScheduledTaskA) {
                 timeElapsedInSeconds.incrementAndGet();

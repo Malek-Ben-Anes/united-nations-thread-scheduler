@@ -28,6 +28,17 @@ public class ExecutionPlanLogger {
         tasks.add(taskName);
         tasks = tasks.stream().sorted().collect(Collectors.toList());
         executedTasksPerSecond.put(startRunningTimeInSeconds, tasks);
+    }
+
+    /**
+     * Adds a task to the execution plan log for a given time elapsed (in seconds).
+     * Then it logs all executed tasks every 5 seconds
+     *
+     * @param startRunningTimeInSeconds The time elapsed in seconds.
+     * @param taskName                  The taskName to be added to the log.
+     */
+    public synchronized void addTaskAndLog(long startRunningTimeInSeconds, String taskName) {
+        addTask(startRunningTimeInSeconds, taskName);
 
         // We choose to print the execution log every 5 seconds.
         // This statement should be removed.
