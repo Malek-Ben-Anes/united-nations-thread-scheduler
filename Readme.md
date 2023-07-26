@@ -54,7 +54,7 @@ Step-by-step instructions on how to install the project on the user's local mach
 
 3. Launching command:
 *cd target*
-*java -jar debiotech-scheduler-1.0-SNAPSHOT.jar*
+*java -jar debiotech-scheduler-1.0.jar*
 
 
 ## Usage
