@@ -11,6 +11,11 @@ import java.util.concurrent.Semaphore;
 public abstract class ScheduledTask extends TimerTask {
 
     // The semaphore to be shared and considered by different tasks.
+    // The semaphore is used to control the number of concurrent tasks that can be executed at the same time.
+    // In this solution, we use a static semaphore, which means all tasks share the same semaphore.
+    // By setting a maximum number of concurrent tasks (MAX_CONCURRENT_TASKS), we ensure that only a limited number of tasks can run simultaneously,
+    // preventing the system from being overwhelmed with too many concurrent tasks.
+    // This helps in managing system resources and maintaining a smooth execution flow.
     public static Semaphore semaphore = new Semaphore(ScheduledTaskManager.MAX_CONCURRENT_TASKS);
 
     protected final String name;
@@ -41,7 +46,7 @@ public abstract class ScheduledTask extends TimerTask {
             command.run();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            throw new RuntimeException("Scheduled task conflict occured!");
+            throw new RuntimeException("Scheduled task conflict occurred!");
         } finally {
             // Always release our permit
             getSemaphore().release();

@@ -35,6 +35,7 @@ public class ScheduledTaskManager {
      * Executes all registered tasks by scheduling them using a ScheduledExecutorService.
      */
     public void execute() {
+        System.out.println("Time (sec) -> Tasks");
         this.scheduledTaskFactory.createAllTasks().forEach(scheduledTask -> scheduleTask(scheduledExecutorService, scheduledTask));
     }
 
