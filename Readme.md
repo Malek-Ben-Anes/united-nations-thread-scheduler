@@ -30,7 +30,7 @@ This section will guide users through setting up the project and getting it runn
 ### Prerequisites
 
 List all the prerequisites needed to run the project. For example:
-- Java Development Kit (JDK) 17 or higher [installation guide](https://docs.oracle.com/en/java/javase/17/install/installation-guide.pdf)
+- Java Development Kit (JDK) 11 or higher [installation guide](https://docs.oracle.com/en/java/javase/11/install/installation-guide.pdf)
 - Maven  [installation guide](https://www.baeldung.com/install-maven-on-windows-linux-mac)
 - Intellij IDEA  [Download link](https://www.jetbrains.com/idea/download/?section=windows)
 
