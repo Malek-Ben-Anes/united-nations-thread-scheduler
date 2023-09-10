@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>debiotech-scheduler</artifactId>
+    <artifactId>united-nations-scheduler</artifactId>
     <version>1.0</version>
-    <name>debiotech-scheduler</name>
+    <name>united-nations-scheduler</name>
 
     <packaging>jar</packaging>
 
@@ -57,7 +57,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.debiotech.scheduler.DebiotechSchedulerApplication</mainClass>
+                            <mainClass>com.unitednations.scheduler.UnitedNationsSchedulerApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
