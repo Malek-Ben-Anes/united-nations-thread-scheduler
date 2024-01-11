@@ -31,17 +31,10 @@ public class UnitedNationsSchedulerApplication {
             scanner.nextLine(); // Consume the newline character after reading the integer
 
             switch (choice) {
-                case 1:
-                    new UnitedNationsSchedulerApplication().executeScheduledTaskAlgorithm();
-                    break;
-                case 2:
-                    new UnitedNationsSchedulerApplication().launchPriorityQueueAlgorithm();
-                    break;
-                case 0:
-                    System.out.println("Exiting the program.");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                case 1 -> new UnitedNationsSchedulerApplication().executeScheduledTaskAlgorithm();
+                case 2 -> new UnitedNationsSchedulerApplication().launchPriorityQueueAlgorithm();
+                case 0 -> System.out.println("Exiting the program.");
+                default -> System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
     }
